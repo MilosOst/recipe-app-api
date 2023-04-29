@@ -20,13 +20,23 @@ export class ConflictError extends APIError {
     }
 }
 
+export class UnauthorizedError extends APIError {
+    constructor(message: string) {
+        super(message, 401);
+    }
+}
+
 export function errorHandler(err: Error, req: Request, res: Response, next: NextFunction) {
     logger.error(err);
-    const statusCode = res.statusCode !== 200 ? res.statusCode : 500;
+    let statusCode = res.statusCode !== 200 ? res.statusCode : 500;
     if (err instanceof ConflictError) {
         return res.status(409).json({
             errors: [{ message: err.message, param: err.param }],
         });
+    }
+
+    if (err instanceof APIError) {
+        statusCode = err.statusCode;
     }
 
     res.status(statusCode);

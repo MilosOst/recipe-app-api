@@ -26,4 +26,16 @@ export const registerUserSchema = object({
     }),
 });
 
+export const loginUserSchema = object({
+    body: object({
+        usernameOrEmail: string({
+            required_error: 'You must provide your email/password.',
+        }),
+        password: string({
+            required_error: 'You must provide your password.',
+        }),
+    }),
+});
+
 export type RegisterUserInput = TypeOf<typeof registerUserSchema>;
+export type LoginUserInput = TypeOf<typeof loginUserSchema>;

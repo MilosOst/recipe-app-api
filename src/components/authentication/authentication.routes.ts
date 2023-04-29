@@ -1,10 +1,12 @@
 import express from 'express';
-import { registerUserSchema } from './authentication.schema';
+import { loginUserSchema, registerUserSchema } from './authentication.schema';
 import validateInput from '../middleware/validateInput';
-import { registerUserHandler } from './authentication.controller';
+import { loginUserHandler, registerUserHandler } from './authentication.controller';
 
 const authRouter = express.Router();
 
 authRouter.post('/register', validateInput(registerUserSchema), registerUserHandler);
+
+authRouter.post('/login', validateInput(loginUserSchema), loginUserHandler);
 
 export default authRouter;
