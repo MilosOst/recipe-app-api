@@ -13,3 +13,5 @@ app.listen(port, async () => {
     logger.info(`Server listening at http://localhost:${port}`);
     await connect();
 });
+
+export default app;

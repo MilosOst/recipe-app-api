@@ -3,6 +3,8 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import helmet from 'helmet';
 import logger from './logger';
+import { errorHandler } from '../components/middleware/errorHandler';
+import indexRouter from '../index.routes';
 
 function createServer(): Application {
     const app = express();
@@ -24,6 +26,10 @@ function createServer(): Application {
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
     app.use(cookieParser());
+
+    app.use('/', indexRouter);
+
+    app.use(errorHandler);
 
     return app;
 }
