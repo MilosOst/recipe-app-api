@@ -3,7 +3,7 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import helmet from 'helmet';
 import logger from './logger';
-import { errorHandler } from '../components/middleware/errorHandler';
+import { errorHandler } from '../middleware/errorHandler';
 import indexRouter from '../index.routes';
 
 function createServer(): Application {

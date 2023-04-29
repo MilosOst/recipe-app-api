@@ -1,5 +1,5 @@
 import UserModel, { IUserDoc } from './user.model';
-import { ConflictError } from '../middleware/errorHandler';
+import { ConflictError } from '../../middleware/errorHandler';
 
 /**
  * Attempt to find a user with the provided username (case insensitive)

@@ -1,5 +1,5 @@
 import { signJWT } from '../../utils/jwtUtils';
-import { UnauthorizedError } from '../middleware/errorHandler';
+import { UnauthorizedError } from '../../middleware/errorHandler';
 import UserModel, { IUserDoc } from '../users/user.model';
 
 /**
