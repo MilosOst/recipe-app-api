@@ -23,7 +23,7 @@ export const loginUserHandler = async (
 ) => {
     try {
         const token = await loginUser(req.body.usernameOrEmail, req.body.password);
-        return res.status(200).json({ token: `Bearer ${token}` });
+        return res.status(200).json(`Bearer ${token}`);
     } catch (err) {
         return next(err);
     }

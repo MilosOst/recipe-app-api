@@ -24,7 +24,7 @@ export const createRecipeSchema = z.object({
         // ingredients: z.array(z.string().max(64, 'Ingredient name exceeds 64 character limit.')),
         ingredients: z
             .object({
-                name: z.string().max(48, 'Ingredient names exceeds 48 character limit.'),
+                name: z.string().max(48, 'Ingredient name exceeds 48 character limit.'),
                 quantity: z.number().min(0, 'Quantity must be greater than 0.'),
                 unit: z.enum(IngredientUnitTypes),
             })

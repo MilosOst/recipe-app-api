@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-import mongoose, { Document } from 'mongoose';
+import mongoose, { Document, LeanDocument } from 'mongoose';
 
 export interface IUser {
     username: string;
@@ -63,5 +63,7 @@ userSchema.methods.comparePassword = async function (candidatePassword: string):
 };
 
 export interface IUserDoc extends IUser, Document {}
+
+export type IUserDocLean = LeanDocument<IUserDoc>;
 
 export default mongoose.model<IUser>('User', userSchema);
