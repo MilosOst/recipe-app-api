@@ -11,11 +11,11 @@ export abstract class APIError extends Error {
     }
 }
 
-export class ConflictError extends APIError {
+export class BadRequestError extends APIError {
     param: string;
 
     constructor(param: string, message: string) {
-        super(message, 409);
+        super(message, 400);
         this.param = param;
     }
 }
@@ -26,17 +26,31 @@ export class UnauthorizedError extends APIError {
     }
 }
 
+export class ConflictError extends APIError {
+    param: string;
+
+    constructor(param: string, message: string) {
+        super(message, 409);
+        this.param = param;
+    }
+}
+
 export function errorHandler(err: Error, req: Request, res: Response, next: NextFunction) {
     logger.error(err);
     let statusCode = res.statusCode !== 200 ? res.statusCode : 500;
-    if (err instanceof ConflictError) {
-        return res.status(409).json({
+    if (err instanceof ConflictError || err instanceof BadRequestError) {
+        return res.status(err.statusCode).json({
             errors: [{ message: err.message, param: err.param }],
         });
     }
 
     if (err instanceof APIError) {
         statusCode = err.statusCode;
+    }
+
+    // Handle invalid json sent
+    if (err instanceof SyntaxError && 'body' in err) {
+        return res.status(400).json({ message: 'Invalid body provided.' });
     }
 
     res.status(statusCode);
