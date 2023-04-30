@@ -9,7 +9,7 @@ dotenv.config();
 const app: Application = createServer();
 const port = process.env.PORT || '3000';
 
-app.listen(3000, '192.168.50.75', async () => {
+app.listen(port, async () => {
     logger.info(`Server listening at http://localhost:${port}`);
     await connect();
 });

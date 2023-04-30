@@ -1,5 +1,11 @@
 /* eslint-disable @typescript-eslint/no-inferrable-types */
-import { PutObjectCommand, PutObjectCommandInput, S3Client } from '@aws-sdk/client-s3';
+import {
+    PutObjectCommand,
+    PutObjectCommandInput,
+    S3Client,
+    GetObjectCommand,
+} from '@aws-sdk/client-s3';
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import dotenv from 'dotenv';
 import sharp from 'sharp';
 import { Express } from 'express';
@@ -44,4 +50,18 @@ export const uploadS3Image = async (
     await s3Client.send(putCommand);
 
     return imageName;
+};
+
+export const getImage = async (imageName: string): Promise<string> => {
+    try {
+        const getObjectParams = {
+            Bucket: bucket,
+            Key: imageName,
+        };
+
+        const getCommand = new GetObjectCommand(getObjectParams);
+        return getSignedUrl(s3Client, getCommand, { expiresIn: 7200 });
+    } catch (e) {
+        return '';
+    }
 };

@@ -2,8 +2,12 @@ import express from 'express';
 import { requireAuth } from '../../middleware/requireAuth';
 import validateInput from '../../middleware/validateInput';
 import upload from '../../utils/multerSetup';
-import { handleRecipeCoverPhotoUpload, handleRecipeCreation } from './recipe.controller';
-import { createRecipeSchema } from './recipe.schema';
+import {
+    handleRecipeCoverPhotoUpload,
+    handleRecipeCreation,
+    handleRecipeSearch,
+} from './recipe.controller';
+import { createRecipeSchema, recipeSearchSchema } from './recipe.schema';
 
 const recipeRouter = express.Router();
 
@@ -13,5 +17,7 @@ recipeRouter.use(requireAuth);
 recipeRouter.post('/image', upload.single('image'), handleRecipeCoverPhotoUpload);
 
 recipeRouter.post('/', validateInput(createRecipeSchema), handleRecipeCreation);
+
+recipeRouter.get('/', validateInput(recipeSearchSchema), handleRecipeSearch);
 
 export default recipeRouter;

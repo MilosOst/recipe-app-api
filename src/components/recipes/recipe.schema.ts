@@ -38,4 +38,12 @@ export const createRecipeSchema = z.object({
     }),
 });
 
+export const recipeSearchSchema = z.object({
+    query: z.object({
+        name: z.string().nonempty().optional(),
+        category: z.enum(RecipeCategories).optional(),
+    }),
+});
+
 export type CreateRecipeInput = z.TypeOf<typeof createRecipeSchema>;
+export type SearchRecipeInput = z.TypeOf<typeof recipeSearchSchema>;

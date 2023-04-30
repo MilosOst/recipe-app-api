@@ -2,8 +2,8 @@ import { NextFunction, Request, Response } from 'express';
 import { BadRequestError } from '../../middleware/errorHandler';
 import { uploadS3Image } from '../../utils/amazonS3';
 import coverPhotoModel from './coverPhoto.model';
-import { CreateRecipeInput } from './recipe.schema';
-import { createRecipe } from './recipe.service';
+import { CreateRecipeInput, SearchRecipeInput } from './recipe.schema';
+import { createRecipe, searchRecipes } from './recipe.service';
 
 export const handleRecipeCoverPhotoUpload = async (
     req: Request,
@@ -49,6 +49,18 @@ export const handleRecipeCreation = async (
     try {
         await createRecipe(req.user.id, req.body);
         return res.status(201).json({ message: 'Recipe successfully posted.' });
+    } catch (err) {
+        return next(err);
+    }
+};
+
+export const handleRecipeSearch = async (
+    req: Request<unknown, unknown, unknown, SearchRecipeInput['query']>,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        return res.status(200).json(await searchRecipes(req.user.id, req.query));
     } catch (err) {
         return next(err);
     }
