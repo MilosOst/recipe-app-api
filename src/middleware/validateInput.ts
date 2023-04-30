@@ -4,6 +4,7 @@ import { AnyZodObject, ZodError, ZodIssue } from 'zod';
 const validateInput =
     (schema: AnyZodObject) => (req: Request, res: Response, next: NextFunction) => {
         try {
+            console.log(req.body.ingredients[0]);
             schema.parse({
                 body: req.body,
                 params: req.params,

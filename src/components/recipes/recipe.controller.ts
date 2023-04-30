@@ -28,12 +28,14 @@ export const handleRecipeCoverPhotoUpload = async (
             return next(new BadRequestError('image', 'Max image size is 5MB'));
         }
 
+        const imageName = await uploadS3Image(req.file);
+
         await coverPhotoModel.create({
             user: req.user.id,
-            imageName: await uploadS3Image(req.file),
+            imageName,
         });
 
-        return res.status(200).json({ message: 'Succesfully uploaded image' });
+        return res.status(200).json(imageName);
     } catch (err) {
         return next(err);
     }

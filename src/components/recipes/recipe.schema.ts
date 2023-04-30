@@ -20,7 +20,10 @@ export const createRecipeSchema = z.object({
             .int()
             .min(1, 'The time to make must be between 1 minute and 2880 minutes.')
             .max(2880, 'The time to make must be between 1 minute and 2880 minutes.'),
-        steps: z.array(z.string().max(2400, 'Step exceeds 2400 character limit.')),
+        steps: z
+            .array(z.string().max(2400, 'Step exceeds 2400 character limit.'))
+            .min(1, 'There must be at least one step listed')
+            .max(20, 'There can be at most 20 steps.'),
         // ingredients: z.array(z.string().max(64, 'Ingredient name exceeds 64 character limit.')),
         ingredients: z
             .object({
@@ -28,7 +31,9 @@ export const createRecipeSchema = z.object({
                 quantity: z.number().min(0, 'Quantity must be greater than 0.'),
                 unit: z.enum(IngredientUnitTypes),
             })
-            .array(),
+            .array()
+            .min(1, 'There must be at least one ingredient listed.')
+            .max(25, 'There can be at most 25 ingredients.'),
         description: z.string().max(8000, 'Description exceeds 8000 character limit.'),
     }),
 });

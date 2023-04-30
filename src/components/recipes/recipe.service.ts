@@ -1,4 +1,5 @@
 import { BadRequestError } from '../../middleware/errorHandler';
+import UserModel from '../users/user.model';
 import CoverPhotoModel, { ICoverPhotoDocLean } from './coverPhoto.model';
 import RecipeModel from './recipe.model';
 import { CreateRecipeInput } from './recipe.schema';
@@ -26,4 +27,6 @@ export const createRecipe = async (userId: string, input: CreateRecipeInput['bod
         minutesToMake: input.minutesToMake,
         categories: input.categories,
     });
+
+    await UserModel.findByIdAndUpdate(userId, { $inc: { recipeCount: 1 } });
 };
